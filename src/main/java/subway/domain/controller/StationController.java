@@ -22,7 +22,24 @@ public class StationController {
             if (menuInput.equals(DELETE_STR) && deleteStation(inputTaker)) {
                 return;
             }
+            if (menuInput.equals(VIEW_STR)) {
+                showStations();
+                return;
+            }
+            if (menuInput.equals(BACK_STR)) {
+                break;
+            }
         }
+    }
+
+    private static void showStations() {
+        System.out.println();
+        System.out.println("## 역 목록");
+        List<Station> stations = StationRepository.stations();
+        for (Station station : stations) {
+            System.out.println("[INFO] " + station.getName());
+        }
+        System.out.println();
     }
 
     private static boolean deleteStation(InputTaker inputTaker) {
