@@ -2,7 +2,7 @@ package subway.domain;
 
 import java.util.*;
 
-public class LineStationRepository {
+public class LineMapRepository {
     private static final HashMap<Line, List<Station>> lineStations = new HashMap<>();
 
     static {
@@ -29,7 +29,22 @@ public class LineStationRepository {
         return Collections.unmodifiableMap(lineStations);
     }
 
-    public static void deleteStationInLine(String lineName, String stationName) {
-        lineStations.get(LineRepository.getLineByName(lineName)).remove(StationRepository.getStationByName(stationName));
+    public static void addLine(String lineName, String topEndStation, String bottomEndStation) {
+        LinkedList<Station> stationList = new LinkedList<>();
+        Station topStation = StationRepository.getStationByName(topEndStation);
+        Station bottomStation = StationRepository.getStationByName(bottomEndStation);
+        stationList.addLast(topStation);
+        stationList.addLast(bottomStation);
+        lineStations.put(LineRepository.getLineByName(lineName), stationList);
+    }
+
+    public static boolean deleteLineInMap(String lineName) {
+        Line lineByName = LineRepository.getLineByName(lineName);
+        if (!lineStations.containsKey(lineByName)) {
+            return false;
+        }
+        lineStations.remove(lineByName);
+        LineRepository.deleteLineByName(lineName);
+        return true;
     }
 }
