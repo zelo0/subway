@@ -2,6 +2,8 @@ package subway.domain.controller;
 
 import subway.domain.*;
 
+import java.util.List;
+
 public class LineController {
 
     private static final String ENROLL_STR = "1";
@@ -35,7 +37,13 @@ public class LineController {
     }
 
     private static void showLines() {
-
+        System.out.println();
+        System.out.println("## 노선 목록");
+        List<Line> lines = LineRepository.lines();
+        for (Line line : lines) {
+            System.out.println("[INFO] " + line.getName());
+        }
+        System.out.println();
     }
 
     private static boolean enrollLine(InputTaker inputTaker) {
