@@ -35,4 +35,14 @@ public class StationRepository {
         return stations.stream().filter(station -> station.getName().equals(name))
                 .findFirst().orElseThrow(NoSuchElementException::new);
     }
+
+    public static boolean isExistStation(String name) {
+        try {
+            stations.stream().filter(station -> station.getName().equals(name))
+                    .findFirst().orElseThrow(NoSuchElementException::new);
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+        return true;
+    }
 }

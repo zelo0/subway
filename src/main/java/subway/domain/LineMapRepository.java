@@ -47,4 +47,21 @@ public class LineMapRepository {
         LineRepository.deleteLineByName(lineName);
         return true;
     }
+
+    public static void addStationInLineInOrder(String lineName, String stationName, int order) {
+        Line lineByName = LineRepository.getLineByName(lineName);
+        Station stationByName = StationRepository.getStationByName(stationName);
+        lineStations.get(lineByName).add(order, stationByName);
+    }
+
+    public static void printMap() {
+        for (Line line : lineStations.keySet()) {
+            System.out.println("[INFO] " + line.getName());
+            System.out.println("[INFO] ---");
+            for (Station station : lineStations.get(line)) {
+                System.out.println("[INFO] " + station.getName());
+            }
+            System.out.println();
+        }
+    }
 }

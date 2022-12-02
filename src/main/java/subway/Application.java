@@ -1,5 +1,6 @@
 package subway;
 
+import subway.domain.InputTaker;
 import subway.domain.controller.MainController;
 
 import java.util.Scanner;
@@ -9,7 +10,7 @@ public class Application {
         final Scanner scanner = new Scanner(System.in);
 
         // TODO: 프로그램 구현
-        MainController mainController = new MainController(scanner);
+        MainController mainController = new MainController(new InputTaker(scanner));
         mainController.run();
     }
 }

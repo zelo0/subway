@@ -31,6 +31,18 @@ public class MainController {
     private void mapToController(String menuInput) {
         if (menuInput.equals(STATION_STR)) {
             StationController.run(inputTaker);
+            return;
+        }
+        if (menuInput.equals(LINE_STR)) {
+            LineController.run(inputTaker);
+            return;
+        }
+        if (menuInput.equals(SECTION_STR)) {
+            LineMapController.run(inputTaker);
+            return;
+        }
+        if (menuInput.equals(LINE_MAP_STR)) {
+            LineMapController.printMap();
         }
     }
 

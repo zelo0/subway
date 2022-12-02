@@ -25,4 +25,35 @@ public class Validator {
             }
         }
     }
+
+    public static void checkIfValidLineName(String lineName) {
+        if (lineName.length() < 2) {
+            throw new IllegalArgumentException();
+        }
+        List<Line> lines = LineRepository.lines();
+        for (Line line : lines) {
+            if (line.getName().equals(lineName)) {
+                throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    public static void checkIfExistsStation(String stationName) {
+        List<Station> stations = StationRepository.stations();
+        for (Station station : stations) {
+            if (station.getName().equals(stationName)) {
+                return;
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+
+    public static boolean isNumber(String input) {
+        try {
+            Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
 }

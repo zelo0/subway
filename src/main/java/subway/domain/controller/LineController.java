@@ -16,14 +16,14 @@ public class LineController {
             printMenu();
             String menuInput = requestMenuSelection(inputTaker);
             if (menuInput.equals(ENROLL_STR) && enrollLine(inputTaker)) {
-                return;
+                break;
             }
             if (menuInput.equals(DELETE_STR) && deleteLine(inputTaker)) {
-                return;
+                break;
             }
             if (menuInput.equals(VIEW_STR)) {
                 showLines();
-                return;
+                break;
             }
             if (menuInput.equals(BACK_STR)) {
                 break;

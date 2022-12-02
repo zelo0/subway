@@ -31,4 +31,14 @@ public class LineRepository {
         return lines.stream().filter(line -> line.getName().equals(name))
                 .findFirst().orElseThrow(NoSuchElementException::new);
     }
+
+    public static boolean isExistLine(String name) {
+        try {
+            lines.stream().filter(line -> line.getName().equals(name))
+                    .findFirst().orElseThrow(NoSuchElementException::new);
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+        return true;
+    }
 }
