@@ -24,7 +24,7 @@ public class StationController extends AbstractController {
     @Override
     boolean enroll(InputTaker inputTaker) {
         String inputName;
-        inputName = inputTaker.takeAddingStationName();
+        inputName = inputTaker.takeInputWithMessage("## 등록할 역 이름을 입력하세요.");
         if (isValidStationName(inputName)) {
             StationRepository.addStation(new Station(inputName));
             System.out.println();
@@ -37,7 +37,7 @@ public class StationController extends AbstractController {
 
     @Override
     boolean delete(InputTaker inputTaker) {
-        String inputName = inputTaker.takeDeletingStationName();
+        String inputName = inputTaker.takeInputWithMessage("## 삭제할 역 이름을 입력하세요.");
         if (isAbleToDeleteStation(inputName)) {
             StationRepository.deleteStation(inputName);
             System.out.println();

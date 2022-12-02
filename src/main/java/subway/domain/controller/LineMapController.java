@@ -29,17 +29,17 @@ public class LineMapController {
     }
 
     private static boolean enrollSection(InputTaker inputTaker) {
-        String lineName = inputTaker.takeLineName();    // 존재하는 노선인 지 체크
+        String lineName = inputTaker.takeInputWithMessage("## 노선을 입력하세요.");    // 존재하는 노선인 지 체크
         if (!LineRepository.isExistLine(lineName)) {
             System.out.println("[ERROR] 존재하지 않는 노선입니다.");
             return false;
         }
-        String stationName = inputTaker.takeStationName();  // 존재하는 역인 지 체크
+        String stationName = inputTaker.takeInputWithMessage("## 역이름을 입력하세요.");  // 존재하는 역인 지 체크
         if (!StationRepository.isExistStation(stationName)) {
             System.out.println("[ERROR] 존재하지 않는 역입니다.");
             return false;
         }
-        String order = inputTaker.takeOrder();  // 숫자인 지 체크
+        String order = inputTaker.takeInputWithMessage("## 순서를 입력하세요.");  // 숫자인 지 체크
         if (!Validator.isNumber(order)) {
             System.out.println("[ERROR] 순서는 숫자여야 합니다.");
             return false;
@@ -59,7 +59,7 @@ public class LineMapController {
     private static String requestMenuSelection(InputTaker inputTaker) {
         String input;
         do {
-            input = inputTaker.takeMenuInput();
+            input = inputTaker.takeInputWithMessage("## 원하는 기능을 선택하세요.");
         } while (!isValidFunction(input));
         return input.trim();
     }

@@ -57,7 +57,7 @@ public class Dispatcher {
     private String requestMenuSelection() {
         String input;
         do {
-            input = inputTaker.takeMenuInput();
+            input = inputTaker.takeInputWithMessage("## 원하는 기능을 선택하세요.");
         } while (!isValidFunction(input));
 
         return input.trim();
