@@ -25,23 +25,33 @@ public class LineMapController {
     }
 
     private static boolean deleteSection(InputTaker inputTaker) {
+        String lineName = inputTaker.takeInputWithMessage("## 삭제할 구간의 노선을 입력하세요.");
+        if (LineRepository.isNotExistLine(lineName)) {
+            return false;
+        }
+        String stationName = inputTaker.takeInputWithMessage("## 삭제할 구간의 역을 입력하세요.");
+        if (StationRepository.isNotExistStation(stationName)) {
+            return false;
+        }
+        boolean wasDeleted = LineMapRepository.deleteStationInLine(lineName, stationName);
+        if (!wasDeleted) {
+            System.out.println("[ERROR] 노선에 해당 역이 없습니다.");
+            return false;
+        }
         return true;
     }
 
     private static boolean enrollSection(InputTaker inputTaker) {
         String lineName = inputTaker.takeInputWithMessage("## 노선을 입력하세요.");    // 존재하는 노선인 지 체크
-        if (!LineRepository.isExistLine(lineName)) {
-            System.out.println("[ERROR] 존재하지 않는 노선입니다.");
+        if (LineRepository.isNotExistLine(lineName)) {
             return false;
         }
         String stationName = inputTaker.takeInputWithMessage("## 역이름을 입력하세요.");  // 존재하는 역인 지 체크
-        if (!StationRepository.isExistStation(stationName)) {
-            System.out.println("[ERROR] 존재하지 않는 역입니다.");
+        if (StationRepository.isNotExistStation(stationName)) {
             return false;
         }
         String order = inputTaker.takeInputWithMessage("## 순서를 입력하세요.");  // 숫자인 지 체크
         if (!Validator.isNumber(order)) {
-            System.out.println("[ERROR] 순서는 숫자여야 합니다.");
             return false;
         }
         LineMapRepository.addStationInLineInOrder(lineName, stationName, Integer.parseInt(order));

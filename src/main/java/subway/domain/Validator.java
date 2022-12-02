@@ -52,6 +52,7 @@ public class Validator {
         try {
             Integer.parseInt(input);
         } catch (NumberFormatException e) {
+            System.out.println("[ERROR] 순서는 숫자여야 합니다.");
             return false;
         }
         return true;

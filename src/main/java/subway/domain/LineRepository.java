@@ -32,13 +32,14 @@ public class LineRepository {
                 .findFirst().orElseThrow(NoSuchElementException::new);
     }
 
-    public static boolean isExistLine(String name) {
+    public static boolean isNotExistLine(String name) {
         try {
             lines.stream().filter(line -> line.getName().equals(name))
                     .findFirst().orElseThrow(NoSuchElementException::new);
         } catch (NoSuchElementException e) {
-            return false;
+            System.out.println("[ERROR] 존재하지 않는 노선입니다.");
+            return true;
         }
-        return true;
+        return false;
     }
 }

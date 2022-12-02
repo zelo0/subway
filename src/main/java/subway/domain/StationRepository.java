@@ -36,13 +36,14 @@ public class StationRepository {
                 .findFirst().orElseThrow(NoSuchElementException::new);
     }
 
-    public static boolean isExistStation(String name) {
+    public static boolean isNotExistStation(String name) {
         try {
             stations.stream().filter(station -> station.getName().equals(name))
                     .findFirst().orElseThrow(NoSuchElementException::new);
         } catch (NoSuchElementException e) {
-            return false;
+            System.out.println("[ERROR] 존재하지 않는 역입니다.");
+            return true;
         }
-        return true;
+        return false;
     }
 }
