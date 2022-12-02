@@ -1,12 +1,11 @@
-package subway.domain.controller;
+package subway.domain;
 
-import subway.domain.InputTaker;
-import subway.domain.Validator;
+import subway.domain.controller.LineController;
+import subway.domain.controller.LineMapController;
+import subway.domain.controller.StationController;
 
-import java.util.Arrays;
-import java.util.Scanner;
 
-public class MainController {
+public class Dispatcher {
     private InputTaker inputTaker;
 
     private static final String STATION_STR = "1";
@@ -15,7 +14,7 @@ public class MainController {
     private static final String LINE_MAP_STR = "4";
     private static final String END_STR = "Q";
 
-    public MainController(InputTaker inputTaker) {
+    public Dispatcher(InputTaker inputTaker) {
         this.inputTaker = inputTaker;
     }
 
@@ -30,13 +29,11 @@ public class MainController {
 
     private void mapToController(String menuInput) {
         if (menuInput.equals(STATION_STR)) {
-            StationController stationController = new StationController();
-            stationController.run(inputTaker, StationController.NAME_MANAGING);
+            StationController.getInstance().run(inputTaker, StationController.NAME_MANAGING);
             return;
         }
         if (menuInput.equals(LINE_STR)) {
-            LineController lineController = new LineController();
-            lineController.run(inputTaker, LineController.NAME_MANAGING);
+            LineController.getInstance().run(inputTaker, LineController.NAME_MANAGING);
             return;
         }
         if (menuInput.equals(SECTION_STR)) {
