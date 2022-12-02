@@ -5,8 +5,21 @@ import subway.domain.*;
 import java.util.List;
 import java.util.Map;
 
-public class StationController extends AbstractController{
+public class StationController extends AbstractController {
     public static final String NAME_MANAGING = "역";
+
+    /* 싱글톤 */
+    private static StationController instance = null;
+
+    private StationController() {
+    }
+
+    public static StationController getInstance() {
+        if (instance == null) {
+            instance = new StationController();
+        }
+        return instance;
+    }
 
     @Override
     boolean enroll(InputTaker inputTaker) {

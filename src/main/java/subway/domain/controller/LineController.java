@@ -7,6 +7,19 @@ import java.util.List;
 public class LineController extends AbstractController {
     public static final String NAME_MANAGING = "노선";
 
+    /* 싱글톤 */
+    private static LineController instance = null;
+
+    private LineController() {
+    }
+
+    public static LineController getInstance() {
+        if (instance == null) {
+            instance = new LineController();
+        }
+        return instance;
+    }
+
     @Override
     boolean enroll(InputTaker inputTaker) {
         String inputName = inputTaker.takeAddingStationName();
