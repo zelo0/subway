@@ -64,4 +64,9 @@ public class LineMapRepository {
             System.out.println();
         }
     }
+
+    public static boolean deleteStationInLine(String lineName, String stationName) {
+        return lineStations.get(LineRepository.getLineByName(lineName))
+                .removeIf(station -> station.getName().equals(stationName));
+    }
 }
