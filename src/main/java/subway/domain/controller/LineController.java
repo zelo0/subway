@@ -21,7 +21,7 @@ public class LineController extends AbstractController {
     }
 
     @Override
-    boolean enroll(InputTaker inputTaker) {
+    boolean enroll() {
         String inputName = inputTaker.takeInputWithMessage("## 등록할 역 이름을 입력하세요.");
         if (isValidLineNameToEnroll(inputName)) {
             String topEndStation = inputTaker.takeInputWithMessage("## 등록할 노선의 상행 종점역 이름을 입력하세요.");
@@ -39,7 +39,7 @@ public class LineController extends AbstractController {
     }
 
     @Override
-    boolean delete(InputTaker inputTaker) {
+    boolean delete() {
         String inputName = inputTaker.takeInputWithMessage("## 삭제할 역 이름을 입력하세요.");
         return LineMapRepository.deleteLineInMap(inputName);
     }

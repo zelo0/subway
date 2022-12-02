@@ -10,14 +10,17 @@ public abstract class AbstractController {
     private static final String VIEW_STR = "3";
     private static final String BACK_STR = "B";
 
+    InputTaker inputTaker;
+
     public void run(InputTaker inputTaker, String typeName) {
+        this.inputTaker = inputTaker;
         while (true) {
             printMenu(typeName);
-            String menuInput = requestMenuSelection(inputTaker);
-            if (menuInput.equals(ENROLL_STR) && enroll(inputTaker)) {
+            String menuInput = requestMenuSelection();
+            if (menuInput.equals(ENROLL_STR) && enroll()) {
                 break;
             }
-            if (menuInput.equals(DELETE_STR) && delete(inputTaker)) {
+            if (menuInput.equals(DELETE_STR) && delete()) {
                 break;
             }
             if (menuInput.equals(VIEW_STR)) {
@@ -31,8 +34,8 @@ public abstract class AbstractController {
     }
 
     // 추상 메소드
-    abstract boolean enroll(InputTaker inputTaker);
-    abstract boolean delete(InputTaker inputTaker);
+    abstract boolean enroll();
+    abstract boolean delete();
     abstract void show();
 
     private void printMenu(String typeName) {
@@ -44,7 +47,7 @@ public abstract class AbstractController {
         System.out.println(BACK_STR + ". 돌아가기");
     }
 
-    private String requestMenuSelection(InputTaker inputTaker) {
+    private String requestMenuSelection() {
         String input;
         do {
             input = inputTaker.takeInputWithMessage("## 원하는 기능을 선택하세요.");
