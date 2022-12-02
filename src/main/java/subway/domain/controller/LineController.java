@@ -4,49 +4,11 @@ import subway.domain.*;
 
 import java.util.List;
 
-public class LineController {
+public class LineController extends AbstractController {
+    public static final String NAME_MANAGING = "노선";
 
-    private static final String ENROLL_STR = "1";
-    private static final String DELETE_STR = "2";
-    private static final String VIEW_STR = "3";
-    private static final String BACK_STR = "B";
-    
-    public static void run(InputTaker inputTaker) {
-        while (true) {
-            printMenu();
-            String menuInput = requestMenuSelection(inputTaker);
-            if (menuInput.equals(ENROLL_STR) && enrollLine(inputTaker)) {
-                break;
-            }
-            if (menuInput.equals(DELETE_STR) && deleteLine(inputTaker)) {
-                break;
-            }
-            if (menuInput.equals(VIEW_STR)) {
-                showLines();
-                break;
-            }
-            if (menuInput.equals(BACK_STR)) {
-                break;
-            }
-        }
-    }
-
-    private static boolean deleteLine(InputTaker inputTaker) {
-        String inputName = inputTaker.takeDeletingStationName();
-        return LineMapRepository.deleteLineInMap(inputName);
-    }
-
-    private static void showLines() {
-        System.out.println();
-        System.out.println("## 노선 목록");
-        List<Line> lines = LineRepository.lines();
-        for (Line line : lines) {
-            System.out.println("[INFO] " + line.getName());
-        }
-        System.out.println();
-    }
-
-    private static boolean enrollLine(InputTaker inputTaker) {
+    @Override
+    boolean enroll(InputTaker inputTaker) {
         String inputName = inputTaker.takeAddingStationName();
         if (isValidLineNameToEnroll(inputName)) {
             String topEndStation = inputTaker.takeTopEndStation();
@@ -63,10 +25,29 @@ public class LineController {
         return false;
     }
 
+    @Override
+    boolean delete(InputTaker inputTaker) {
+        String inputName = inputTaker.takeDeletingStationName();
+        return LineMapRepository.deleteLineInMap(inputName);
+    }
+
+    @Override
+    void show() {
+        System.out.println();
+        System.out.println("## 노선 목록");
+        List<Line> lines = LineRepository.lines();
+        for (Line line : lines) {
+            System.out.println("[INFO] " + line.getName());
+        }
+        System.out.println();
+    }
+
     private static boolean isValidStation(String stationName) {
         try {
             Validator.checkIfExistsStation(stationName);
         } catch (IllegalArgumentException e) {
+            System.out.println();
+            System.out.println("[ERROR] 존재하지 않는 역입니다.");
             return false;
         }
         return true;
@@ -83,35 +64,4 @@ public class LineController {
         }
         return true;
     }
-
-    private static String requestMenuSelection(InputTaker inputTaker) {
-        String input;
-        do {
-            input = inputTaker.takeMenuInput();
-        } while (!isValidFunction(input));
-        return input.trim();
-    }
-
-    private static boolean isValidFunction(String input) {
-        try {
-            Validator.checkIfValidMenu(input, new String[]{ENROLL_STR, DELETE_STR, VIEW_STR, BACK_STR});
-        } catch (IllegalArgumentException e) {
-            System.out.println();
-            System.out.println("[ERROR] 메뉴에서 선택해주세요");
-            System.out.println();
-            return false;
-        }
-        return true;
-    }
-
-    private static void printMenu() {
-        System.out.println();
-        System.out.println("## 노석 관리 화면");
-        System.out.println(ENROLL_STR + ". 노선 등록");
-        System.out.println(DELETE_STR + ". 노선 삭제");
-        System.out.println(VIEW_STR + ". 노선 조회");
-        System.out.println(BACK_STR + ". 돌아가기");
-    }
-
-
 }

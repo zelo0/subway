@@ -30,11 +30,13 @@ public class MainController {
 
     private void mapToController(String menuInput) {
         if (menuInput.equals(STATION_STR)) {
-            StationController.run(inputTaker);
+            StationController stationController = new StationController();
+            stationController.run(inputTaker, StationController.NAME_MANAGING);
             return;
         }
         if (menuInput.equals(LINE_STR)) {
-            LineController.run(inputTaker);
+            LineController lineController = new LineController();
+            lineController.run(inputTaker, LineController.NAME_MANAGING);
             return;
         }
         if (menuInput.equals(SECTION_STR)) {
