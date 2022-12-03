@@ -1,63 +1,61 @@
 package subway.controller;
 
 import subway.InputTaker;
-import subway.Validator;
+import subway.annot.MapController;
+import subway.annot.Task;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import static subway.common.Constant.*;
 
 public abstract class AbstractController {
-
-    private static final String ENROLL_STR = "1";
-    private static final String DELETE_STR = "2";
-    private static final String VIEW_STR = "3";
-    private static final String BACK_STR = "B";
-    private static final String[] menuOptions =
-            new String[]{ENROLL_STR, DELETE_STR, VIEW_STR, BACK_STR};
 
     InputTaker inputTaker;
 
     // 추상 메소드
-    abstract boolean enroll();
-    abstract boolean delete();
-    abstract void show();
+    @Task(DETAIL_ENROLL_MENU)
+    protected abstract boolean enroll();
 
-    protected void run(InputTaker inputTaker, String typeName) {
+    @Task(DETAIL_DELETE_MENU)
+    protected abstract boolean delete();
+
+    @Task(DETAIL_VIEW_MENU)
+    protected abstract boolean show();
+
+    @Task(DETAIL_BACK_MENU)
+    protected boolean back() {
+        return true;
+    }
+
+    protected abstract void printMenu();
+
+    protected void run(InputTaker inputTaker, String[] menus) {
+        boolean isEnd = false;
         this.inputTaker = inputTaker;
-        while (true) {
-            printMenu(typeName);
-            String menuInput = requestMenuSelection();
-            if (isEnd(menuInput)) {
-                break;
+
+        while (!isEnd) {
+            printMenu();    // 구현된 추상 메소드 실행
+            String menuInput = inputTaker.takeMenuSelection(menus);
+            try {
+                isEnd = proceed(menuInput);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
 
-    private boolean isEnd(String menuInput) {
-        if (menuInput.equals(ENROLL_STR) && enroll()) {
-            return true;
+    private boolean proceed(String menuInput) throws Exception {
+        Method[] methods = AbstractController.class.getDeclaredMethods();
+        for (Method method : methods) {
+            Task task = method.getAnnotation(Task.class);
+            if (task == null) {
+                continue;
+            }
+            if (task.value().equals(menuInput)) {
+                return (boolean) method.invoke(this);
+            }
         }
-        if (menuInput.equals(DELETE_STR) && delete()) {
-            return true;
-        }
-        if (menuInput.equals(VIEW_STR)) {
-            show();
-            return true;
-        }
-        return menuInput.equals(BACK_STR);
-    }
-
-    private void printMenu(String typeName) {
-        System.out.println();
-        System.out.println("## " + typeName + " 관리 화면");
-        System.out.println(ENROLL_STR + ". " + typeName + " 등록");
-        System.out.println(DELETE_STR + ". " + typeName + " 삭제");
-        System.out.println(VIEW_STR + ". " + typeName + " 조회");
-        System.out.println(BACK_STR + ". 돌아가기");
-    }
-
-    private String requestMenuSelection() {
-        String input;
-        do {
-            input = inputTaker.takeInputWithMessage("## 원하는 기능을 선택하세요.");
-        } while (Validator.isNotValidMenu(input, menuOptions));
-        return input.trim();
+        return false;
     }
 }

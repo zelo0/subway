@@ -1,17 +1,21 @@
 package subway.controller;
 
+import jdk.internal.util.xml.impl.Input;
 import subway.InputTaker;
+import subway.Printer;
 import subway.Validator;
 import subway.repository.LineMapRepository;
 import subway.repository.LineRepository;
 import subway.repository.StationRepository;
 
-public class LineMapController {
+import static subway.common.Constant.*;
 
-    private static final String ENROLL_STR = "1";
-    private static final String DELETE_STR = "2";
-    private static final String BACK_STR = "B";
+public class LineMapController extends AbstractController {
+    public static final String NAME_MANAGING = "구간";
+    public static final String[] MENUS = new String[]{DETAIL_ENROLL_MENU, DETAIL_DELETE_MENU};
+    public static final String[] MESSAGES = new String[]{DETAIL_ENROLL_MESSAGE_TAIL, DETAIL_DELETE_MESSAGE_TAIL};
 
+    /* 싱글톤 */
     private static LineMapController instance = null;
 
     private LineMapController() {
@@ -24,23 +28,8 @@ public class LineMapController {
         return instance;
     }
 
-    public void run(InputTaker inputTaker) {
-        while (true) {
-            printMenu();
-            String menuInput = requestMenuSelection(inputTaker);
-            if (menuInput.equals(ENROLL_STR) && enrollSection(inputTaker)) {
-                break;
-            }
-            if (menuInput.equals(DELETE_STR) && deleteSection(inputTaker)) {
-                break;
-            }
-            if (menuInput.equals(BACK_STR)) {
-                break;
-            }
-        }
-    }
-
-    private boolean deleteSection(InputTaker inputTaker) {
+    @Override
+    protected boolean delete() {
         String lineName = inputTaker.takeInputWithMessage("## 삭제할 구간의 노선을 입력하세요.");
         if (LineRepository.isNotExistLine(lineName)) {
             return false;
@@ -57,7 +46,8 @@ public class LineMapController {
         return true;
     }
 
-    private boolean enrollSection(InputTaker inputTaker) {
+    @Override
+    protected boolean enroll() {
         String lineName = inputTaker.takeInputWithMessage("## 노선을 입력하세요.");    // 존재하는 노선인 지 체크
         if (LineRepository.isNotExistLine(lineName)) {
             return false;
@@ -74,32 +64,18 @@ public class LineMapController {
         return true;
     }
 
-    private void printMenu() {
-        System.out.println();
-        System.out.println("## 구간 관리 화면");
-        System.out.println(ENROLL_STR + ". 구간 등록");
-        System.out.println(DELETE_STR + ". 구간 삭제");
-        System.out.println(BACK_STR + ". 돌아가기");
-    }
-
-    private String requestMenuSelection(InputTaker inputTaker) {
-        String input;
-        do {
-            input = inputTaker.takeInputWithMessage("## 원하는 기능을 선택하세요.");
-        } while (!isValidFunction(input));
-        return input.trim();
-    }
-
-    private boolean isValidFunction(String input) {
-        try {
-            Validator.checkIfValidMenu(input, new String[]{ENROLL_STR, DELETE_STR, BACK_STR});
-        } catch (IllegalArgumentException e) {
-            System.out.println();
-            System.out.println("[ERROR] 메뉴에서 선택해주세요");
-            System.out.println();
-            return false;
-        }
+    @Override
+    protected boolean show() {
         return true;
+    }
+
+    @Override
+    protected void printMenu() {
+        Printer.printDetailMenu(NAME_MANAGING, MENUS, MESSAGES);
+    }
+
+    public void run(InputTaker inputTaker) {
+        super.run(inputTaker, MENUS);
     }
 
     public void printMap() {

@@ -7,12 +7,16 @@ import subway.repository.StationRepository;
 
 import java.util.List;
 
+import static subway.common.Constant.DETAIL_BACK_MENU;
+
 public class Validator {
 
     public static void checkIfValidMenu(String input, String[] acceptedStringList) {
-        String trimmedInput = input.trim();
+        if (input.equals(DETAIL_BACK_MENU)) {
+            return;
+        }
         for (String acceptedString : acceptedStringList) {
-            if (trimmedInput.equalsIgnoreCase(acceptedString)) {
+            if (input.equalsIgnoreCase(acceptedString)) {
                 return;
             }
         }

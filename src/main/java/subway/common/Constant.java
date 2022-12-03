@@ -25,5 +25,21 @@ public class Constant {
             new String[]{MAIN_STATION_MESSAGE, MAIN_LINE_MESSAGE, MAIN_SECTION_MESSAGE, MAIN_LINE_MAP_MESSAGE, MAIN_END_MESSAGE};
 
 
-    /* 역 메뉴 */
+    /* 역, 노선, 구간 관리 메뉴 */
+
+    // 메뉴 제목
+    public static final String DETAIL_TITLE_HEAD = "## ";
+    public static final String DETAIL_TITLE_TAIL = " 관리 화면 ";
+
+    // 메뉴
+    public static final String DETAIL_ENROLL_MENU = "1";
+    public static final String DETAIL_DELETE_MENU = "2";
+    public static final String DETAIL_VIEW_MENU = "3";
+    public static final String DETAIL_BACK_MENU = "B";
+
+    // 메뉴별 안내
+    public static final String DETAIL_ENROLL_MESSAGE_TAIL = " 등록";
+    public static final String DETAIL_DELETE_MESSAGE_TAIL = " 삭제";
+    public static final String DETAIL_VIEW_MESSAGE_TAIL = " 조회";
+    public static final String DETAIL_BACK_MESSAGE = "돌아가기";
 }

@@ -1,6 +1,7 @@
 package subway.controller;
 
 import subway.InputTaker;
+import subway.Printer;
 import subway.Validator;
 import subway.domain.*;
 import subway.repository.LineMapRepository;
@@ -9,8 +10,12 @@ import subway.repository.StationRepository;
 import java.util.List;
 import java.util.Map;
 
+import static subway.common.Constant.*;
+
 public class StationController extends AbstractController {
     public static final String NAME_MANAGING = "역";
+    public static final String[] MENUS = new String[]{DETAIL_ENROLL_MENU, DETAIL_DELETE_MENU, DETAIL_VIEW_MENU};
+    public static final String[] MESSAGES = new String[]{DETAIL_ENROLL_MESSAGE_TAIL, DETAIL_DELETE_MESSAGE_TAIL, DETAIL_VIEW_MESSAGE_TAIL};
 
     /* 싱글톤 */
     private static StationController instance = null;
@@ -26,11 +31,11 @@ public class StationController extends AbstractController {
     }
 
     public void run(InputTaker inputTaker) {
-        super.run(inputTaker, NAME_MANAGING);
+        super.run(inputTaker, MENUS);
     }
 
     @Override
-    boolean enroll() {
+    protected boolean enroll() {
         String inputName;
         inputName = inputTaker.takeInputWithMessage("## 등록할 역 이름을 입력하세요.");
         if (isValidStationName(inputName)) {
@@ -44,7 +49,7 @@ public class StationController extends AbstractController {
     }
 
     @Override
-    boolean delete() {
+    protected boolean delete() {
         String inputName = inputTaker.takeInputWithMessage("## 삭제할 역 이름을 입력하세요.");
         if (isAbleToDeleteStation(inputName)) {
             StationRepository.deleteStation(inputName);
@@ -57,7 +62,7 @@ public class StationController extends AbstractController {
     }
 
     @Override
-    void show() {
+    protected boolean show() {
         System.out.println();
         System.out.println("## 역 목록");
         List<Station> stations = StationRepository.stations();
@@ -65,6 +70,12 @@ public class StationController extends AbstractController {
             System.out.println("[INFO] " + station.getName());
         }
         System.out.println();
+        return true;
+    }
+
+    @Override
+    protected void printMenu() {
+        Printer.printDetailMenu(NAME_MANAGING, MENUS, MESSAGES);
     }
 
     private static boolean isAbleToDeleteStation(String inputName) {

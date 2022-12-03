@@ -19,7 +19,7 @@ public class Dispatcher {
     public void run() {
         String menuInput;
         while (true) {
-            Printer.printMenu(MAIN_MENU_TITLE, MAIN_MENU_OPTIONS, MAIN_MENU_MESSAGES);
+            Printer.printMainMenu(MAIN_MENU_TITLE, MAIN_MENU_OPTIONS, MAIN_MENU_MESSAGES);
             menuInput = inputTaker.takeMenuSelection(MAIN_MENU_OPTIONS);
             if (menuInput.equalsIgnoreCase(MAIN_END_MENU)) {
                 break;
