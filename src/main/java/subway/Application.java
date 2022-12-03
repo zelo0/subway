@@ -1,8 +1,5 @@
 package subway;
 
-import subway.domain.InputTaker;
-import subway.domain.Dispatcher;
-
 import java.util.Scanner;
 
 public class Application {

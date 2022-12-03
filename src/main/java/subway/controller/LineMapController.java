@@ -1,6 +1,10 @@
-package subway.domain.controller;
+package subway.controller;
 
-import subway.domain.*;
+import subway.InputTaker;
+import subway.Validator;
+import subway.repository.LineMapRepository;
+import subway.repository.LineRepository;
+import subway.repository.StationRepository;
 
 public class LineMapController {
 

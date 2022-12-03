@@ -1,6 +1,10 @@
-package subway.domain.controller;
+package subway.controller;
 
+import subway.InputTaker;
+import subway.Validator;
 import subway.domain.*;
+import subway.repository.LineMapRepository;
+import subway.repository.LineRepository;
 
 import java.util.List;
 
@@ -18,6 +22,10 @@ public class LineController extends AbstractController {
             instance = new LineController();
         }
         return instance;
+    }
+
+    public void run(InputTaker inputTaker) {
+        super.run(inputTaker, NAME_MANAGING);
     }
 
     @Override

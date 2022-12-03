@@ -1,7 +1,7 @@
-package subway.domain.controller;
+package subway.controller;
 
-import subway.domain.InputTaker;
-import subway.domain.Validator;
+import subway.InputTaker;
+import subway.Validator;
 
 public abstract class AbstractController {
 
@@ -12,7 +12,7 @@ public abstract class AbstractController {
 
     InputTaker inputTaker;
 
-    public void run(InputTaker inputTaker, String typeName) {
+    protected void run(InputTaker inputTaker, String typeName) {
         this.inputTaker = inputTaker;
         while (true) {
             printMenu(typeName);

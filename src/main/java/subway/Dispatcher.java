@@ -1,8 +1,8 @@
-package subway.domain;
+package subway;
 
-import subway.domain.controller.LineController;
-import subway.domain.controller.LineMapController;
-import subway.domain.controller.StationController;
+import subway.controller.LineController;
+import subway.controller.LineMapController;
+import subway.controller.StationController;
 
 
 public class Dispatcher {
@@ -29,11 +29,11 @@ public class Dispatcher {
 
     private void mapToController(String menuInput) {
         if (menuInput.equals(STATION_STR)) {
-            StationController.getInstance().run(inputTaker, StationController.NAME_MANAGING);
+            StationController.getInstance().run(inputTaker);
             return;
         }
         if (menuInput.equals(LINE_STR)) {
-            LineController.getInstance().run(inputTaker, LineController.NAME_MANAGING);
+            LineController.getInstance().run(inputTaker);
             return;
         }
         if (menuInput.equals(SECTION_STR)) {
