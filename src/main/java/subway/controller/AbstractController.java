@@ -57,11 +57,7 @@ public abstract class AbstractController {
         String input;
         do {
             input = inputTaker.takeInputWithMessage("## 원하는 기능을 선택하세요.");
-        } while (Validator.isNotValidFunction(input, menuOptions));
+        } while (Validator.isNotValidMenu(input, menuOptions));
         return input.trim();
     }
-
-
-
-
 }

@@ -57,7 +57,7 @@ public class Dispatcher {
         String input;
         do {
             input = inputTaker.takeInputWithMessage("## 원하는 기능을 선택하세요.");
-        } while (Validator.isNotValidFunction(input, MAIN_MENU_OPTIONS));
+        } while (Validator.isNotValidMenu(input, MAIN_MENU_OPTIONS));
         return input.trim();
     }
 }

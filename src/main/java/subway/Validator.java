@@ -63,7 +63,7 @@ public class Validator {
         return true;
     }
 
-    public static boolean isNotValidFunction(String input, String[] menuOptions) {
+    public static boolean isNotValidMenu(String input, String[] menuOptions) {
         try {
             checkIfValidMenu(input, menuOptions);
         } catch (IllegalArgumentException e) {
