@@ -12,7 +12,19 @@ public class LineMapController {
     private static final String DELETE_STR = "2";
     private static final String BACK_STR = "B";
 
-    public static void run(InputTaker inputTaker) {
+    private static LineMapController instance = null;
+
+    private LineMapController() {
+    }
+
+    public static LineMapController getInstance() {
+        if (instance == null) {
+            instance = new LineMapController();
+        }
+        return instance;
+    }
+
+    public void run(InputTaker inputTaker) {
         while (true) {
             printMenu();
             String menuInput = requestMenuSelection(inputTaker);
@@ -28,7 +40,7 @@ public class LineMapController {
         }
     }
 
-    private static boolean deleteSection(InputTaker inputTaker) {
+    private boolean deleteSection(InputTaker inputTaker) {
         String lineName = inputTaker.takeInputWithMessage("## 삭제할 구간의 노선을 입력하세요.");
         if (LineRepository.isNotExistLine(lineName)) {
             return false;
@@ -45,7 +57,7 @@ public class LineMapController {
         return true;
     }
 
-    private static boolean enrollSection(InputTaker inputTaker) {
+    private boolean enrollSection(InputTaker inputTaker) {
         String lineName = inputTaker.takeInputWithMessage("## 노선을 입력하세요.");    // 존재하는 노선인 지 체크
         if (LineRepository.isNotExistLine(lineName)) {
             return false;
@@ -62,7 +74,7 @@ public class LineMapController {
         return true;
     }
 
-    private static void printMenu() {
+    private void printMenu() {
         System.out.println();
         System.out.println("## 구간 관리 화면");
         System.out.println(ENROLL_STR + ". 구간 등록");
@@ -70,7 +82,7 @@ public class LineMapController {
         System.out.println(BACK_STR + ". 돌아가기");
     }
 
-    private static String requestMenuSelection(InputTaker inputTaker) {
+    private String requestMenuSelection(InputTaker inputTaker) {
         String input;
         do {
             input = inputTaker.takeInputWithMessage("## 원하는 기능을 선택하세요.");
@@ -78,7 +90,7 @@ public class LineMapController {
         return input.trim();
     }
 
-    private static boolean isValidFunction(String input) {
+    private boolean isValidFunction(String input) {
         try {
             Validator.checkIfValidMenu(input, new String[]{ENROLL_STR, DELETE_STR, BACK_STR});
         } catch (IllegalArgumentException e) {
@@ -90,7 +102,7 @@ public class LineMapController {
         return true;
     }
 
-    public static void printMap() {
+    public void printMap() {
         System.out.println();
         System.out.println("## 지하철 노선도");
         LineMapRepository.printMap();
