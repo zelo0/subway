@@ -13,6 +13,9 @@ public class Dispatcher {
     private static final String SECTION_STR = "3";
     private static final String LINE_MAP_STR = "4";
     private static final String END_STR = "Q";
+    private static final String[] menuOptions =
+            new String[]{STATION_STR, LINE_STR, SECTION_STR, LINE_MAP_STR, END_STR};
+
 
     public Dispatcher(InputTaker inputTaker) {
         this.inputTaker = inputTaker;
@@ -58,21 +61,8 @@ public class Dispatcher {
         String input;
         do {
             input = inputTaker.takeInputWithMessage("## 원하는 기능을 선택하세요.");
-        } while (!isValidFunction(input));
-
+        } while (Validator.isNotValidFunction(input, menuOptions));
         return input.trim();
     }
-
-    private boolean isValidFunction(String input) {
-        try {
-            Validator.checkIfValidMenu(input, new String[]{STATION_STR, LINE_STR, SECTION_STR, LINE_MAP_STR, END_STR});
-        } catch (IllegalArgumentException e) {
-            System.out.println("[ERROR] 메뉴에서 선택해주세요");
-            System.out.println();
-            return false;
-        }
-        return true;
-    }
-
 
 }

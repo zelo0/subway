@@ -9,34 +9,40 @@ public abstract class AbstractController {
     private static final String DELETE_STR = "2";
     private static final String VIEW_STR = "3";
     private static final String BACK_STR = "B";
+    private static final String[] menuOptions =
+            new String[]{ENROLL_STR, DELETE_STR, VIEW_STR, BACK_STR};
 
     InputTaker inputTaker;
+
+    // 추상 메소드
+    abstract boolean enroll();
+    abstract boolean delete();
+    abstract void show();
 
     protected void run(InputTaker inputTaker, String typeName) {
         this.inputTaker = inputTaker;
         while (true) {
             printMenu(typeName);
             String menuInput = requestMenuSelection();
-            if (menuInput.equals(ENROLL_STR) && enroll()) {
-                break;
-            }
-            if (menuInput.equals(DELETE_STR) && delete()) {
-                break;
-            }
-            if (menuInput.equals(VIEW_STR)) {
-                show();
-                break;
-            }
-            if (menuInput.equals(BACK_STR)) {
+            if (isEnd(menuInput)) {
                 break;
             }
         }
     }
 
-    // 추상 메소드
-    abstract boolean enroll();
-    abstract boolean delete();
-    abstract void show();
+    private boolean isEnd(String menuInput) {
+        if (menuInput.equals(ENROLL_STR) && enroll()) {
+            return true;
+        }
+        if (menuInput.equals(DELETE_STR) && delete()) {
+            return true;
+        }
+        if (menuInput.equals(VIEW_STR)) {
+            show();
+            return true;
+        }
+        return menuInput.equals(BACK_STR);
+    }
 
     private void printMenu(String typeName) {
         System.out.println();
@@ -51,19 +57,11 @@ public abstract class AbstractController {
         String input;
         do {
             input = inputTaker.takeInputWithMessage("## 원하는 기능을 선택하세요.");
-        } while (!isValidFunction(input));
+        } while (Validator.isNotValidFunction(input, menuOptions));
         return input.trim();
     }
 
-    private boolean isValidFunction(String input) {
-        try {
-            Validator.checkIfValidMenu(input, new String[]{ENROLL_STR, DELETE_STR, VIEW_STR, BACK_STR});
-        } catch (IllegalArgumentException e) {
-            System.out.println();
-            System.out.println("[ERROR] 메뉴에서 선택해주세요");
-            System.out.println();
-            return false;
-        }
-        return true;
-    }
+
+
+
 }

@@ -62,4 +62,16 @@ public class Validator {
         }
         return true;
     }
+
+    public static boolean isNotValidFunction(String input, String[] menuOptions) {
+        try {
+            checkIfValidMenu(input, menuOptions);
+        } catch (IllegalArgumentException e) {
+            System.out.println();
+            System.out.println("[ERROR] 메뉴에서 선택해주세요");
+            System.out.println();
+            return true;
+        }
+        return false;
+    }
 }
